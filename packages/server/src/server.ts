@@ -12,25 +12,25 @@ type Context = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<Context>().create();
 
 export const appRouter = t.router({
-    sayHello: t.procedure
-        .input(z.object({
-            name: z.string(),
-            age: z.number()
-        }))
-        .query(async ({ input }) => {
-            return `Oh hi there, ${input.name} - as it turns out you are indeed ${input.age} years old!`
-        })
+	sayHello: t.procedure
+		.input(z.object({
+			name: z.string(),
+			age: z.number()
+		}))
+		.query(async ({ input }) => {
+			return `Oh hi there, ${input.name} - as it turns out you are indeed ${input.age} years old!`
+		})
 })
 
 export type AppRouter = typeof appRouter;
 
 app.use(cors())
 app.use(
-    "/trpc",
-    trpcExpress.createExpressMiddleware({
-        router: appRouter,
-        createContext
-    })
+	"/trpc",
+	trpcExpress.createExpressMiddleware({
+		router: appRouter,
+		createContext
+	})
 )
 
 app.listen(4000, () => console.log("[+] Server is running on port 4000."));
